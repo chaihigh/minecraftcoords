@@ -31,16 +31,16 @@ const MoodButton = styled.button<{ $active: boolean }>`
   color: ${({ $active }) => ($active ? 'white' : '')};
 `;
 
+const GreenButton = styled.button<{ $clicks: number }>`
+  background-color: ${({ $clicks }) => colorMap.get($clicks)};
+`;
+
 export default function App() {
   const [clicks, setClicks] = React.useState(0);
   const [grClicks, setGrClicks] = React.useState(0);
   const [mood, setMood] = React.useState('meh');
   const [name, setName] = React.useState('"first name"');
   const [lastName, setLastName] = React.useState('"last name"');
-
-  const GreenButton = styled.button<{ $active: boolean }>`
-    background-color: ${colorMap.get(grClicks)};
-  `;
 
   return (
     <Wrapper>
@@ -59,9 +59,19 @@ export default function App() {
             setLastName(event.target.value);
           }}
         />
-        <Hello person={name + ' ' + lastName} feeling={mood}></Hello>
-        <button onClick={() => setClicks(clicks + 1)}>I've been clicked {clicks} times</button>
-        <MoodButton $active={mood === 'excited'} onClick={() => setMood('excited')}>
+        <Hello
+          person={name + ' ' + lastName}
+          feeling={mood}
+        ></Hello>
+        <button
+          onClick={() => setClicks(clicks + 1)}
+        >
+          I've been clicked {clicks} times
+        </button>
+        <MoodButton
+          $active={mood === 'excited'}
+          onClick={() => setMood('excited')}
+        >
           Excited!
         </MoodButton>
         <MoodButton $active={mood === 'meh'} onClick={() => setMood('meh')}>
@@ -70,7 +80,12 @@ export default function App() {
         <MoodButton $active={mood === 'confused'} onClick={() => setMood('confused')}>
           Confused?
         </MoodButton>
-        <GreenButton onClick={() => setGrClicks(grClicks + 1)}>Green :)</GreenButton>
+        <GreenButton
+          onClick={() => setGrClicks(grClicks + 1)}
+          $clicks={grClicks}
+        >
+          Green :)
+        </GreenButton>
       </Heading>
     </Wrapper>
   );
