@@ -44,7 +44,7 @@ export function App() {
   return (
     <Wrapper>
       <Col>
-        <p>Welcome! What waypoint would you like to save?</p>
+        <p><span style={{ fontSize: '2rem', color: 'green' }}>Welcome!</span> What waypoint would you like to save?</p>
         <hr />
         <LabeledValue
           label="Name:"
