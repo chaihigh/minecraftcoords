@@ -9,10 +9,22 @@ const Wrapper = styled.div`
   margin: 0;
 `;
 
+type Waypoint = {
+  name: string;
+  coord: {
+    x: number;
+    y: number;
+    z: number;
+  }
+}
+
 export default function App() {
 
   return (
     <Wrapper>
+      <p>Welcome! What waypoint would you like to save?</p>
+
     </Wrapper>
   );
 }
+
