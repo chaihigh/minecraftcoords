@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { LabeledValue } from './components/LabeledValue.tsx';
-import { Waypoint, WaypointDisplay } from './components/WaypointDisplay.tsx'
+import { Waypoint } from './types.ts';
+import { WaypointDisplay } from './components/WaypointDisplay.tsx'
+import { recallWaypoints, storeWaypoints } from './utils/storage.ts';
+
+
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,7 +31,7 @@ export function App() {
   const [inputX, setInputX] = React.useState('');
   const [inputY, setInputY] = React.useState('');
   const [inputZ, setInputZ] = React.useState('');
-  const [waypoints, setWaypoints] = React.useState<Waypoint[]>([])
+  const [waypoints, setWaypoints] = React.useState<Waypoint[]>(recallWaypoints());
 
   const submitCoord = () => {
     let newWaypoint: Waypoint = {
@@ -38,7 +42,9 @@ export function App() {
         z: Number(inputZ),
       },
     };
-    setWaypoints([...waypoints, newWaypoint])
+    const newWaypointList = [...waypoints, newWaypoint]
+    setWaypoints(newWaypointList)
+    storeWaypoints(newWaypointList);
   }
 
   return (
