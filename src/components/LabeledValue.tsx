@@ -26,11 +26,11 @@ const Input = styled.input`
 export const LabeledValue: React.FC<{
   label: string;
   value: string | number;
-  onChange?: (value: string | number) => void;
+  onChange: (value: string | number) => void;
 }> = ({ label, value, onChange }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(typeof value === "number" ? e.target.valueAsNumber : e.target.value);
+    onChange(typeof value === "number" ? e.target.valueAsNumber : e.target.value);
   };
 
   return (

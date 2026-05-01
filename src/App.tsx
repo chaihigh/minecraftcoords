@@ -4,8 +4,7 @@ import { LabeledValue } from './components/LabeledValue.tsx';
 import { Waypoint } from './types.ts';
 import { WaypointDisplay } from './components/WaypointDisplay.tsx'
 import { recallWaypoints, storeWaypoints } from './utils/storage.ts';
-
-
+import { InputFields } from './components/InputFields.tsx';
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,54 +26,20 @@ const Row = styled.div`
 `;
 
 export function App() {
-  const [inputName, setInputName] = React.useState('');
-  const [inputX, setInputX] = React.useState('');
-  const [inputY, setInputY] = React.useState('');
-  const [inputZ, setInputZ] = React.useState('');
   const [waypoints, setWaypoints] = React.useState<Waypoint[]>(recallWaypoints());
-
-  const submitCoord = () => {
-    let newWaypoint: Waypoint = {
-      name: inputName,
-      coord: {
-        x: Number(inputX),
-        y: Number(inputY),
-        z: Number(inputZ),
-      },
-    };
-    const newWaypointList = [...waypoints, newWaypoint]
-    setWaypoints(newWaypointList)
-    storeWaypoints(newWaypointList);
-  }
 
   return (
     <Wrapper>
       <Col>
         <p><span style={{ fontSize: '2rem', color: 'green' }}>Welcome!</span> What waypoint would you like to save?</p>
         <hr />
-        <LabeledValue
-          label="Name:"
-          value={inputName}
-          onChange={v => setInputName(v)}
+        <InputFields
+          onSubmit={(waypoint) => {
+            const newWaypointList = [...waypoints, waypoint]
+            setWaypoints(newWaypointList)
+            storeWaypoints(newWaypointList);
+          }}
         />
-        <LabeledValue
-          label="X:"
-          value={inputX}
-          onChange={v => setInputX(v)}
-        />
-        <LabeledValue
-          label="Y:"
-          value={inputY}
-          onChange={v => setInputY(v)}
-        />
-        <LabeledValue
-          label="Z:"
-          value={inputZ}
-          onChange={v => setInputZ(v)}
-        />
-        <button onClick={submitCoord}>
-          Submit
-        </button>
         <Col>
           {waypoints.map((w: Waypoint) => {
             return <WaypointDisplay waypoint={w}>
