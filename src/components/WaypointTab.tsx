@@ -1,51 +1,62 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { Waypoint } from '../types.ts';
-import { WaypointDisplay } from './WaypointDisplay.tsx'
+import { WaypointDisplay } from './WaypointDisplay.tsx';
 import { recallWaypoints, storeWaypoints } from '../utils/storage.ts';
 import { WaypointInputFields } from './WaypointInputFields.tsx';
+import { Row, Col } from '../styles/globalStyles';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+const TabPage = styled.div`
+  padding: 1.5rem;
 `;
 
-const Col = styled.div`
-  display: flex;
-  flex-direction: column;
+const WelcomeMessage = styled.p`
+  font-size: 1.1rem;
+  color: #334c33;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
 `;
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
+const PanelRow = styled(Row)`
+  gap: 2rem;
+  align-items: flex-start;
+`;
+
+const LeftPanel = styled(Col)`
+  min-width: 300px;
+  max-width: 410px;
+`;
+
+const RightPanel = styled(Col)`
+  flex: 1;
+  gap: 0.5rem;
 `;
 
 export const WaypointTab: React.FC<{}> = () => {
   const [waypoints, setWaypoints] = React.useState<Waypoint[]>(recallWaypoints());
 
   return (
-    <Wrapper>
-      <Col>
-        <p><span style={{ fontSize: '2rem', color: 'green' }}>Welcome!</span> What waypoint would you like to save?</p>
-        <hr />
-        <WaypointInputFields
-          onSubmit={(waypoint) => {
-            const newWaypointList = [...waypoints, waypoint]
-            setWaypoints(newWaypointList)
-            storeWaypoints(newWaypointList);
-          }}
-        />
-        <Col>
-          {waypoints.map((w: Waypoint, i: number) => {
-            return <WaypointDisplay waypoint={w} key={i}>
-            </WaypointDisplay>
-          })}
-        </Col>
-      </Col>
-    </Wrapper>
+    <TabPage>
+      <WelcomeMessage>
+        <span style={{ fontSize: '1.4rem', color: 'green', fontWeight: 600 }}>Welcome!</span>{' '}
+        What waypoint would you like to save?
+      </WelcomeMessage>
+      <PanelRow>
+        <LeftPanel>
+          <WaypointInputFields
+            onSubmit={(waypoint) => {
+              const newWaypointList = [...waypoints, waypoint];
+              setWaypoints(newWaypointList);
+              storeWaypoints(newWaypointList);
+            }}
+          />
+        </LeftPanel>
+        <RightPanel>
+          {waypoints.map((w: Waypoint, i: number) => (
+            <WaypointDisplay waypoint={w} key={i} />
+          ))}
+        </RightPanel>
+      </PanelRow>
+    </TabPage>
   );
-}
+};

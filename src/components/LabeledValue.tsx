@@ -16,11 +16,17 @@ const Label = styled.span`
 
 const Input = styled.input`
   font-size: 1rem;
-  color: #111827;
-  border: 1px solid #111827;
+  color: #334c33;
+  border: 1px solid #aaf;
   border-radius: 4px;
-  padding: 0;
+  padding: 0.3rem 0.5rem;
   background: transparent;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: #334c33;
+  }
 `;
 
 export const LabeledValue: React.FC<{

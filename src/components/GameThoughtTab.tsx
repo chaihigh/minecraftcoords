@@ -4,56 +4,61 @@ import { GameThoughtInputFields } from './GameThoughtInputFields.tsx';
 import { GameThought } from '../types.ts';
 import { GameThoughtDisplay } from './GameThoughtDisplay.tsx';
 import { storeGameThoughts, recallGameThoughts } from '../utils/storage.ts';
+import { Row, Col } from '../styles/globalStyles';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+const TabPage = styled.div`
+  padding: 1.5rem;
 `;
 
-const Col = styled.div`
-  display: flex;
-  flex-direction: column;
+const WelcomeMessage = styled.p`
+  font-size: 1.1rem;
+  color: #334c33;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
 `;
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
+const PanelRow = styled(Row)`
+  gap: 2rem;
+  align-items: flex-start;
+`;
+
+const LeftPanel = styled(Col)`
+  width: 350px;
+`;
+
+const RightPanel = styled(Col)`
+  flex: 1;
+  gap: 0.5rem;
 `;
 
 export const GameThoughtTab: React.FC<{}> = () => {
   const [gameThoughts, setGameThoughts] = React.useState<GameThought[]>(recallGameThoughts);
 
   return (
-    <Wrapper>
-      <Col>
-        <p><span style={{color: 'red'}}>Hello! </span>What is your game thought?</p>
-        <hr />
-        <GameThoughtInputFields
-          onSubmit={(gameThought) => {
-            const newGameThoughtList = [...gameThoughts, gameThought]
-            setGameThoughts(newGameThoughtList)
-            storeGameThoughts(newGameThoughtList)
-          }}
-        />
-        <Col>
+    <TabPage>
+      <WelcomeMessage>
+        <span style={{ color: '#c0392b', fontWeight: 600 }}>Hello!</span>{' '}
+        What is your game thought?
+      </WelcomeMessage>
+      <PanelRow>
+        <LeftPanel>
+          <GameThoughtInputFields
+            onSubmit={(gameThought) => {
+              const newGameThoughtList = [...gameThoughts, gameThought];
+              setGameThoughts(newGameThoughtList);
+              storeGameThoughts(newGameThoughtList);
+            }}
+          />
+        </LeftPanel>
+        <RightPanel>
           {gameThoughts
-            .sort((a, b) => {
-              return a.priority - b.priority;
-            })
-            .map((v: GameThought, index: number) => {
-              return <GameThoughtDisplay gameThought={v} key={index}>
-              </GameThoughtDisplay>
-            })
+            .sort((a, b) => a.priority - b.priority)
+            .map((v: GameThought, index: number) => (
+              <GameThoughtDisplay gameThought={v} key={index} />
+            ))
           }
-
-        </Col>
-      </Col>
-
-
-    </Wrapper>
-  )
-}
+        </RightPanel>
+      </PanelRow>
+    </TabPage>
+  );
+};
