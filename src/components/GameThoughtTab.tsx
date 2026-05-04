@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import { NewAppInputFields } from './components/NewAppInputFields.tsx';
-import { GameThought } from './types.ts';
-import { GameThoughtDisplay } from './components/GameThoughtDisplay.tsx';
-import { storeGameThoughts, recallGameThoughts } from './utils/storage.ts';
+import { GameThoughtInputFields } from './GameThoughtInputFields.tsx';
+import { GameThought } from '../types.ts';
+import { GameThoughtDisplay } from './GameThoughtDisplay.tsx';
+import { storeGameThoughts, recallGameThoughts } from '../utils/storage.ts';
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ const Row = styled.div`
   flex-direction: row;
 `;
 
-export function NewApp() {
+export const GameThoughtTab: React.FC<{}> = () => {
   const [gameThoughts, setGameThoughts] = React.useState<GameThought[]>(recallGameThoughts);
 
   return (
@@ -32,7 +32,7 @@ export function NewApp() {
       <Col>
         <p><span style={{color: 'red'}}>Hello! </span>What is your game thought?</p>
         <hr />
-        <NewAppInputFields
+        <GameThoughtInputFields
           onSubmit={(gameThought) => {
             const newGameThoughtList = [...gameThoughts, gameThought]
             setGameThoughts(newGameThoughtList)
@@ -40,10 +40,15 @@ export function NewApp() {
           }}
         />
         <Col>
-          {gameThoughts.map((v: GameThought) => {
-            return <GameThoughtDisplay gameThought={v}>
-            </GameThoughtDisplay>
-          })}
+          {gameThoughts
+            .sort((a, b) => {
+              return a.priority - b.priority;
+            })
+            .map((v: GameThought, index: number) => {
+              return <GameThoughtDisplay gameThought={v} key={index}>
+              </GameThoughtDisplay>
+            })
+          }
 
         </Col>
       </Col>

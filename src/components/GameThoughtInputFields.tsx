@@ -2,7 +2,7 @@ import * as React from 'react';
 import { LabeledValue } from './LabeledValue.tsx';
 import { GameThought } from '../types.ts';
 
-export const NewAppInputFields: React.FC<{
+export const GameThoughtInputFields: React.FC<{
   onSubmit: (value: GameThought) => void
 }> = ({onSubmit}) => {
 

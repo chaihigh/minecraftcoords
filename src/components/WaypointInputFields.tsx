@@ -2,7 +2,7 @@ import { Waypoint } from '../types.ts';
 import * as React from 'react';
 import { LabeledValue } from './LabeledValue.tsx';
 
-export const InputFields: React.FC<{
+export const WaypointInputFields: React.FC<{
   onSubmit: (value: Waypoint) => void
 }> = (props) => {
   const { onSubmit } = props;
@@ -12,7 +12,8 @@ export const InputFields: React.FC<{
   const [inputY, setInputY] = React.useState('');
   const [inputZ, setInputZ] = React.useState('');
 
-  return <form onSubmit={() => {
+  return <form onSubmit={(event) => {
+    event.preventDefault();
     let newWaypoint: Waypoint = {
       name: inputName,
       coord: {
