@@ -24,6 +24,7 @@ const CoordSpan = styled.span<{ $value: number }>`
 const DeleteButton = styled.button`
   float: right;
   border: none;
+  border-radius: 5px;
   padding: 0.4rem;
   color: #334c33;
   

@@ -35,6 +35,7 @@ const RightPanel = styled(Col)`
 const ClearAll = styled.button`
   align-self: flex-end;
   border: none;
+  border-radius: 5px;
   color: #334c33;
   max-width: 60px;
   padding: 0.4rem;
