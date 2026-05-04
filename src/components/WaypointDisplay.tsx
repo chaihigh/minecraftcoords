@@ -21,29 +21,35 @@ const CoordSpan = styled.span<{ $value: number }>`
   font-family: monospace;
 `;
 
-// const DeleteButton = styled.button`
-//   color: #334c33;
-// `;
+const DeleteButton = styled.button`
+  float: right;
+  border: none;
+  padding: 0.4rem;
+  color: #334c33;
+  
+  &:hover {
+    background: #ccf;
+  }
+`;
 
 export const WaypointDisplay: React.FC<{
-  waypoint: Waypoint, key: number;
-}> = ({ waypoint, key }) => {
+  waypoint: Waypoint;
+  onDelete: () => void;
+}> = ({waypoint, onDelete}) => {
   const { x, y, z } = waypoint.coord;
+
   return (
     <Card>
       <Name>{waypoint.name}:</Name>
       <CoordSpan $value={x}>{x}</CoordSpan>,{' '}
       <CoordSpan $value={y}>{y}</CoordSpan>,{' '}
       <CoordSpan $value={z}>{z}</CoordSpan>
-      <span>{key}</span>
-      {/*<DeleteButton onClick={(event) => {*/}
-      {/*  event.preventDefault();*/}
-      {/*  return*/}
-      {/*  //remove from list*/}
-      {/*  //remove from storage*/}
-      {/*}}>*/}
-      {/*  delete item*/}
-      {/*</DeleteButton>*/}
+      <DeleteButton onClick={(event) => {
+        event.preventDefault();
+        onDelete();
+      }}>
+        delete item
+      </DeleteButton>
     </Card>
   );
 };

@@ -32,6 +32,14 @@ const RightPanel = styled(Col)`
   gap: 0.5rem;
 `;
 
+const ClearAll = styled.button`
+  align-self: flex-end;
+  border: none;
+  color: #334c33;
+  max-width: 60px;
+  padding: 0.4rem;
+`
+
 export const WaypointTab: React.FC<{}> = () => {
   const [waypoints, setWaypoints] = React.useState<Waypoint[]>(recallWaypoints());
 
@@ -52,8 +60,23 @@ export const WaypointTab: React.FC<{}> = () => {
           />
         </LeftPanel>
         <RightPanel>
+          <ClearAll onClick={() => {
+            confirm('Do you really want to clear?');
+            setWaypoints([]);
+            storeWaypoints([]);
+          }}>
+            clear all
+          </ClearAll>
           {waypoints.map((w: Waypoint, i: number) => (
-            <WaypointDisplay waypoint={w} key={i} />
+            <WaypointDisplay
+              waypoint={w}
+              key={i}
+              onDelete={() => {
+                const newWaypointList = waypoints.filter((_, idx) => idx !== i);
+                setWaypoints(newWaypointList);
+                storeWaypoints(newWaypointList);
+              }}
+            />
           ))}
         </RightPanel>
       </PanelRow>
