@@ -6,3 +6,9 @@ export type Waypoint = {
     z: number,
   }
 }
+
+export type GameThought = {
+  name: string,
+  priority: number,
+  description: string,
+}

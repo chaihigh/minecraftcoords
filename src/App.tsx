@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import { LabeledValue } from './components/LabeledValue.tsx';
 import { Waypoint } from './types.ts';
 import { WaypointDisplay } from './components/WaypointDisplay.tsx'
 import { recallWaypoints, storeWaypoints } from './utils/storage.ts';
