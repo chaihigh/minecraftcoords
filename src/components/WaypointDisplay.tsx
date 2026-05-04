@@ -21,9 +21,13 @@ const CoordSpan = styled.span<{ $value: number }>`
   font-family: monospace;
 `;
 
+// const DeleteButton = styled.button`
+//   color: #334c33;
+// `;
+
 export const WaypointDisplay: React.FC<{
-  waypoint: Waypoint;
-}> = ({ waypoint }) => {
+  waypoint: Waypoint, key: number;
+}> = ({ waypoint, key }) => {
   const { x, y, z } = waypoint.coord;
   return (
     <Card>
@@ -31,6 +35,15 @@ export const WaypointDisplay: React.FC<{
       <CoordSpan $value={x}>{x}</CoordSpan>,{' '}
       <CoordSpan $value={y}>{y}</CoordSpan>,{' '}
       <CoordSpan $value={z}>{z}</CoordSpan>
+      <span>{key}</span>
+      {/*<DeleteButton onClick={(event) => {*/}
+      {/*  event.preventDefault();*/}
+      {/*  return*/}
+      {/*  //remove from list*/}
+      {/*  //remove from storage*/}
+      {/*}}>*/}
+      {/*  delete item*/}
+      {/*</DeleteButton>*/}
     </Card>
   );
 };
