@@ -1,4 +1,5 @@
 export type Waypoint = {
+  id: number;
   name: string,
   coord: {
     x: number,
@@ -6,6 +7,7 @@ export type Waypoint = {
     z: number,
   }
 }
+export type WaypointFields = Omit<Waypoint, 'id'>;
 
 export type GameThought = {
   name: string,

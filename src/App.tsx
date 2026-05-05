@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { WaypointTab } from './components/WaypointTab.tsx';
+import WaypointTab from './components/WaypointTab.tsx';
 import { GameThoughtTab } from './components/GameThoughtTab.tsx';
 import { Col, Row } from './styles/globalStyles.ts';
 import styled from 'styled-components';

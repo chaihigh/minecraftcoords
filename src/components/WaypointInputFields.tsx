@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Waypoint } from '../types.ts';
+import { Waypoint, WaypointFields } from '../types.ts';
 import * as React from 'react';
 import { LabeledValue } from './LabeledValue.tsx';
 import { FancyButton, Row } from '../styles/globalStyles';
@@ -25,7 +25,7 @@ const SubmitButton = styled(FancyButton)`
 `
 
 export const WaypointInputFields: React.FC<{
-  onSubmit: (value: Waypoint) => void
+  onSubmit: (value: WaypointFields) => void
 }> = ({ onSubmit }) => {
   const [inputName, setInputName] = React.useState('');
   const [inputX, setInputX] = React.useState('');
