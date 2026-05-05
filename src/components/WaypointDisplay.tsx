@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { Waypoint } from '../types.ts';
+import { FancyButton } from '../styles/globalStyles.ts';
 
 const Card = styled.div`
   border: 1px solid #aaf;
@@ -21,16 +22,28 @@ const CoordSpan = styled.span<{ $value: number }>`
   font-family: monospace;
 `;
 
+const DeleteButton = styled(FancyButton)`
+  float: right;
+  padding: .3rem .6rem;
+`;
+
 export const WaypointDisplay: React.FC<{
   waypoint: Waypoint;
-}> = ({ waypoint }) => {
+  onDelete: () => void;
+}> = ({waypoint, onDelete}) => {
   const { x, y, z } = waypoint.coord;
+
   return (
     <Card>
       <Name>{waypoint.name}:</Name>
       <CoordSpan $value={x}>{x}</CoordSpan>,{' '}
       <CoordSpan $value={y}>{y}</CoordSpan>,{' '}
       <CoordSpan $value={z}>{z}</CoordSpan>
+      <DeleteButton onClick={() => {
+        onDelete();
+      }}>
+        delete item
+      </DeleteButton>
     </Card>
   );
 };

@@ -1,5 +1,4 @@
-import { Waypoint } from '../types.ts';
-import { GameThought } from '../types.ts';
+import { GameThought, Waypoint } from '../types.ts';
 
 export const recallWaypoints = (): Waypoint[] => {
   try {

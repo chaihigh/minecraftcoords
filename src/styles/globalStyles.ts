@@ -31,3 +31,17 @@ export const Row = styled.div`
   display: flex;
   flex-direction: row;
 `;
+
+export const FancyButton = styled.button`
+  border: none;
+  background: #ccccff99;
+  color: #334c33;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+
+  &:hover {
+    background: #ccf;
+  }
+`;

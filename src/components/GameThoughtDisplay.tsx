@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { GameThought } from '../types';
+import { FancyButton } from '../styles/globalStyles.ts';
 
 const Card = styled.div`
   border: 1px solid #aaf;
@@ -38,16 +39,30 @@ const Description = styled.p`
   margin: 0;
 `;
 
+const DeleteButton = styled(FancyButton)`
+  float: right;
+  padding: .3rem .6rem;
+`;
+
 export const GameThoughtDisplay: React.FC<{
   gameThought: GameThought;
-}> = ({ gameThought }) => {
+  onDelete: () => void;
+}> = ({ gameThought, onDelete }) => {
   const { name, priority, description } = gameThought;
   return (
     <Card>
-      <CardHeader>
-        <Name>{name}</Name>
-        <Priority>P{priority}</Priority>
-      </CardHeader>
+      <span>
+        <CardHeader>
+          <Name>{name}</Name>
+          <Priority>P{priority}</Priority>
+        </CardHeader>
+        <DeleteButton onClick={(event) => {
+          event.preventDefault();
+          onDelete();
+        }}>
+          delete item
+        </DeleteButton>
+      </span>
       <Description>{description}</Description>
     </Card>
   );

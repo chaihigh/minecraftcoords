@@ -3,6 +3,7 @@ import * as React from 'react';
 import { LabeledValue } from './LabeledValue.tsx';
 import { GameThought } from '../types.ts';
 import { DescriptionLabeledValue } from './DescriptionLabeledValue.tsx';
+import { FancyButton } from '../styles/globalStyles.ts';
 
 const Form = styled.form`
   display: flex;
@@ -10,21 +11,10 @@ const Form = styled.form`
   gap: 0.75rem;
 `;
 
-const SubmitButton = styled.button`
-  border: none;
-  background: #ccccff99;
-  color: #334c33;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  font-size: 0.9rem;
+const SubmitButton = styled(FancyButton)`
   align-self: flex-start;
   margin-top: 0.25rem;
-
-  &:hover {
-    background: #ccf;
-  }
-`;
+`
 
 export const GameThoughtInputFields: React.FC<{
   onSubmit: (value: GameThought) => void

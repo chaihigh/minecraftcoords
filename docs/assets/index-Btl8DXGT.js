@@ -51,7 +51,7 @@ Error generating stack: `+o.message+`
 `,qo=O.span`
   color: ${({$value:e})=>e<0?"#c0392b":e>0?"#2563eb":"#334c33"};
   font-family: monospace;
-`,Jm=({waypoint:e})=>{const{x:t,y:n,z:r}=e.coord;return P.jsxs(Xm,{children:[P.jsxs(Zm,{children:[e.name,":"]}),P.jsx(qo,{$value:t,children:t}),","," ",P.jsx(qo,{$value:n,children:n}),","," ",P.jsx(qo,{$value:r,children:r})]})},qm=()=>{try{const e=localStorage.getItem("mctracker:waypoints");return e?JSON.parse(e):[]}catch{return[]}},bm=e=>{try{const t=JSON.stringify(e);localStorage.setItem("mctracker:waypoints",t)}catch{}},eg=()=>{try{const e=localStorage.getItem("gamethoughtkey");return e?JSON.parse(e):[]}catch{return[]}},tg=e=>{try{const t=JSON.stringify(e);localStorage.setItem("gamethoughtkey",t)}catch{}},ng=O.div`
+`,Jm=({waypoint:e,key:t})=>{const{x:n,y:r,z:l}=e.coord;return P.jsxs(Xm,{children:[P.jsxs(Zm,{children:[e.name,":"]}),P.jsx(qo,{$value:n,children:n}),","," ",P.jsx(qo,{$value:r,children:r}),","," ",P.jsx(qo,{$value:l,children:l}),P.jsx("span",{children:t})]})},qm=()=>{try{const e=localStorage.getItem("mctracker:waypoints");return e?JSON.parse(e):[]}catch{return[]}},bm=e=>{try{const t=JSON.stringify(e);localStorage.setItem("mctracker:waypoints",t)}catch{}},eg=()=>{try{const e=localStorage.getItem("gamethoughtkey");return e?JSON.parse(e):[]}catch{return[]}},tg=e=>{try{const t=JSON.stringify(e);localStorage.setItem("gamethoughtkey",t)}catch{}},ng=O.div`
   display: flex;
   flex-direction: column;
 `,rg=O.span`

@@ -4,7 +4,7 @@ import { Waypoint } from '../types.ts';
 import { WaypointDisplay } from './WaypointDisplay.tsx';
 import { recallWaypoints, storeWaypoints } from '../utils/storage.ts';
 import { WaypointInputFields } from './WaypointInputFields.tsx';
-import { Row, Col } from '../styles/globalStyles';
+import { Col, FancyButton, Row } from '../styles/globalStyles';
 
 const TabPage = styled.div`
   padding: 1.5rem;
@@ -32,6 +32,10 @@ const RightPanel = styled(Col)`
   gap: 0.5rem;
 `;
 
+const ClearAll = styled(FancyButton)`
+  align-self: flex-end;
+`
+
 export const WaypointTab: React.FC<{}> = () => {
   const [waypoints, setWaypoints] = React.useState<Waypoint[]>(recallWaypoints());
 
@@ -52,8 +56,25 @@ export const WaypointTab: React.FC<{}> = () => {
           />
         </LeftPanel>
         <RightPanel>
+          <ClearAll onClick={() => {
+            const didUserConfirm = confirm('Do you really want to clear?');
+            if (didUserConfirm) {
+              setWaypoints([]);
+              storeWaypoints([]);
+            }
+          }}>
+            clear all
+          </ClearAll>
           {waypoints.map((w: Waypoint, i: number) => (
-            <WaypointDisplay waypoint={w} key={i} />
+            <WaypointDisplay
+              waypoint={w}
+              key={i}
+              onDelete={() => {
+                const newWaypointList = waypoints.filter((_, idx) => idx !== i);
+                setWaypoints(newWaypointList);
+                storeWaypoints(newWaypointList);
+              }}
+            />
           ))}
         </RightPanel>
       </PanelRow>

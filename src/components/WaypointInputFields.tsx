@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Waypoint } from '../types.ts';
 import * as React from 'react';
 import { LabeledValue } from './LabeledValue.tsx';
-import { Row } from '../styles/globalStyles';
+import { FancyButton, Row } from '../styles/globalStyles';
 
 const Form = styled.form`
   display: flex;
@@ -19,21 +19,10 @@ const NarrowField = styled.div`
   min-width: 0;
 `;
 
-const SubmitButton = styled.button`
-  border: none;
-  background: #ccccff99;
-  color: #334c33;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  font-size: 0.9rem;
+const SubmitButton = styled(FancyButton)`
   align-self: flex-start;
   margin-top: 0.25rem;
-
-  &:hover {
-    background: #ccf;
-  }
-`;
+`
 
 export const WaypointInputFields: React.FC<{
   onSubmit: (value: Waypoint) => void
