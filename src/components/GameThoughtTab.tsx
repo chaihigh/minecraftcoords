@@ -3,7 +3,7 @@ import * as React from 'react';
 import { GameThoughtInputFields } from './GameThoughtInputFields.tsx';
 import { GameThought } from '../types.ts';
 import { GameThoughtDisplay } from './GameThoughtDisplay.tsx';
-import { storeGameThoughts, recallGameThoughts } from '../utils/storage.ts';
+import { storeGameThoughts, recallGameThoughts, storeWaypoints } from '../utils/storage.ts';
 import { Row, Col } from '../styles/globalStyles';
 
 const TabPage = styled.div`
@@ -31,6 +31,15 @@ const RightPanel = styled(Col)`
   gap: 0.5rem;
 `;
 
+const ClearAll = styled.button`
+  align-self: flex-end;
+  border: none;
+  border-radius: 5px;
+  color: #334c33;
+  max-width: 60px;
+  padding: 0.4rem;
+`
+
 export const GameThoughtTab: React.FC<{}> = () => {
   const [gameThoughts, setGameThoughts] = React.useState<GameThought[]>(recallGameThoughts);
 
@@ -51,10 +60,26 @@ export const GameThoughtTab: React.FC<{}> = () => {
           />
         </LeftPanel>
         <RightPanel>
+          <ClearAll onClick={() => {
+            return confirm('Do you really want to clear?') ?
+              (setGameThoughts([]),
+              storeGameThoughts([]))
+              : '';
+          }}>
+            clear all
+          </ClearAll>
           {gameThoughts
             .sort((a, b) => a.priority - b.priority)
-            .map((v: GameThought, index: number) => (
-              <GameThoughtDisplay gameThought={v} key={index} />
+            .map((v: GameThought, i: number) => (
+              <GameThoughtDisplay
+                gameThought={v}
+                key={i}
+                onDelete={() => {
+                  const newGameThoughtList = gameThoughts.filter((_, idx) => idx !== i);
+                  setGameThoughts(newGameThoughtList);
+                  storeGameThoughts(newGameThoughtList);
+                }}
+              />
             ))
           }
         </RightPanel>

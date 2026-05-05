@@ -62,9 +62,11 @@ export const WaypointTab: React.FC<{}> = () => {
         </LeftPanel>
         <RightPanel>
           <ClearAll onClick={() => {
-            confirm('Do you really want to clear?');
-            setWaypoints([]);
-            storeWaypoints([]);
+            return confirm('Do you really want to clear?') ?
+              (setWaypoints([]),
+              storeWaypoints([]))
+              : '';
+
           }}>
             clear all
           </ClearAll>
