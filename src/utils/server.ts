@@ -1,12 +1,14 @@
 import { Waypoint, WaypointFields } from '../types.ts';
 import { GameThought, GameThoughtFields } from '../types.ts';
 
+const HOST = location.hostname;
+
 type Response<T> = {
   status: number,
   data: T,
 }
 const request = async <R = any>(url: string, method: string, body: any = {}): Promise<Response<R>> => {
-  const res = await fetch(`http://localhost:3001${url}`, {
+  const res = await fetch(`http://${HOST}:3001${url}`, {
     method,
     headers: {
       'content-type': 'application/json;charset=UTF-8',
