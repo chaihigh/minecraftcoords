@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { LabeledValue } from './LabeledValue.tsx';
-import { GameThought } from '../types.ts';
+import { GameThoughtFields } from '../types.ts';
 import { DescriptionLabeledValue } from './DescriptionLabeledValue.tsx';
 import { FancyButton } from '../styles/globalStyles.ts';
 
@@ -17,7 +17,7 @@ const SubmitButton = styled(FancyButton)`
 `
 
 export const GameThoughtInputFields: React.FC<{
-  onSubmit: (value: GameThought) => void
+  onSubmit: (value: GameThoughtFields) => void
 }> = ({ onSubmit }) => {
   const [inputName, setInputName] = React.useState('');
   const [inputPriority, setInputPriority] = React.useState('');

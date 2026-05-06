@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Waypoint, WaypointFields } from '../types.ts';
+import { WaypointFields } from '../types.ts';
 import * as React from 'react';
 import { LabeledValue } from './LabeledValue.tsx';
 import { FancyButton, Row } from '../styles/globalStyles';

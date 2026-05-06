@@ -10,7 +10,9 @@ export type Waypoint = {
 export type WaypointFields = Omit<Waypoint, '_id'>;
 
 export type GameThought = {
+  _id: string;
   name: string,
   priority: number,
   description: string,
 }
+export type GameThoughtFields = Omit<GameThought, '_id'>;
