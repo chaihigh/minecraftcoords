@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import * as React from 'react';
 import { Waypoint, WaypointFields } from '../types.ts';
 import { WaypointDisplay } from './WaypointDisplay.tsx';
-import { recallWaypoints, storeWaypoints } from '../utils/storage.ts';
 import { WaypointInputFields } from './WaypointInputFields.tsx';
 import { Col, FancyButton, Row } from '../styles/globalStyles';
 import { clearAllWaypoints, createNewWaypoint, deleteWaypoint, getAllWaypoints } from '../utils/server.ts';
+import { em } from '../utils/errors.ts';
 
 const TabPage = styled.div`
   padding: 1.5rem;
@@ -50,7 +50,7 @@ const WaypointTab: React.FC<{}> = () => {
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-        setErrorMessage(error?.message ?? error);
+        setErrorMessage(em(error));
       }
     })();
   }, []);
@@ -63,19 +63,19 @@ const WaypointTab: React.FC<{}> = () => {
   const onClear = async () => {
     const didUserConfirm = confirm('Do you really want to clear?');
     if (didUserConfirm) {
-      const { error } = await clearAllWaypoints();
-      if (!error) {
+      try {
+        await clearAllWaypoints();
         setWaypoints([]);
-      }
+      } catch (error) {}
     }
   }
 
   const onDelete = async (waypoint: Waypoint) => {
-    const { error } = await deleteWaypoint(waypoint);
-    if (!error) {
-      const newWaypointList = waypoints.filter(w => w.id !== waypoint.id);
+    try {
+      await deleteWaypoint(waypoint);
+      const newWaypointList = waypoints.filter(w => w._id !== waypoint._id);
       setWaypoints(newWaypointList);
-    }
+    } catch (error) {}
   }
 
   if (isLoading) {

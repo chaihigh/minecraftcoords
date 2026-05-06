@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { GameThoughtInputFields } from './GameThoughtInputFields.tsx';
-import { GameThought } from '../types.ts';
+import { GameThought, GameThoughtFields } from '../types.ts';
 import { GameThoughtDisplay } from './GameThoughtDisplay.tsx';
-import { recallGameThoughts, storeGameThoughts } from '../utils/storage.ts';
 import { Col, FancyButton, Row } from '../styles/globalStyles';
+import { clearAllGameThoughts, createNewGameThought, deleteGameThought, getAllGameThoughts } from '../utils/server.ts';
+import { em } from '../utils/errors.ts';
 
 const TabPage = styled.div`
   padding: 1.5rem;
@@ -36,7 +37,73 @@ const ClearAll = styled(FancyButton)`
 `
 
 export const GameThoughtTab: React.FC<{}> = () => {
-  const [gameThoughts, setGameThoughts] = React.useState<GameThought[]>(recallGameThoughts);
+  const [gameThoughts, setGameThoughts] = React.useState<GameThought[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await getAllGameThoughts();
+        setGameThoughts(data);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        setErrorMessage(em(error));
+      }
+    })();
+  }, []);
+
+  const onAdd = async (gameThought: GameThoughtFields) => {
+    try {
+      const { data } = await createNewGameThought(gameThought);
+      setGameThoughts([...gameThoughts, data]);
+    } catch (error) {}
+  }
+
+  const onClear = async () => {
+    const didUserConfirm = confirm('Do you really want to clear?');
+    if (didUserConfirm) {
+      try {
+        await clearAllGameThoughts();
+        setGameThoughts([]);
+      } catch (error) {}
+    }
+  }
+
+  const onDelete = async (gameThought: GameThought) => {
+    try {
+      await deleteGameThought(gameThought);
+      const newGameThoughtList = gameThoughts.filter(g => g._id !== gameThought._id);
+      setGameThoughts(newGameThoughtList)
+    } catch (error) {}
+  }
+
+  if (isLoading) {
+    return <TabPage>
+      <WelcomeMessage>
+        <span style={{ fontSize: '1.4rem', color: 'green', fontWeight: 600 }}>Welcome!</span>{' '}
+        Your game thoughts are loading
+      </WelcomeMessage>
+      <PanelRow>
+      </PanelRow>
+    </TabPage>
+  }
+
+  if (errorMessage) {
+    return <TabPage>
+      <WelcomeMessage>
+        <span style={{ fontSize: '1.4rem', color: 'green', fontWeight: 600 }}>Welcome!</span>{' '}
+        An error occurred
+      </WelcomeMessage>
+      <PanelRow>
+        <LeftPanel></LeftPanel>
+        <RightPanel>
+          {errorMessage}
+        </RightPanel>
+      </PanelRow>
+    </TabPage>
+  }
 
   return (
     <TabPage>
@@ -47,34 +114,20 @@ export const GameThoughtTab: React.FC<{}> = () => {
       <PanelRow>
         <LeftPanel>
           <GameThoughtInputFields
-            onSubmit={(gameThought) => {
-              const newGameThoughtList = [...gameThoughts, gameThought];
-              setGameThoughts(newGameThoughtList);
-              storeGameThoughts(newGameThoughtList);
-            }}
+            onSubmit={onAdd}
           />
         </LeftPanel>
         <RightPanel>
-          <ClearAll onClick={() => {
-            const didUserConfirm = confirm('Do you really want to clear?');
-            if (didUserConfirm) {
-              setGameThoughts([]);
-              storeGameThoughts([]);
-            }
-          }}>
+          <ClearAll onClick={onClear}>
             clear all
           </ClearAll>
           {gameThoughts
             .sort((a, b) => a.priority - b.priority)
-            .map((v: GameThought, i: number) => (
+            .map((g: GameThought, i: number) => (
               <GameThoughtDisplay
-                gameThought={v}
+                gameThought={g}
                 key={i}
-                onDelete={() => {
-                  const newGameThoughtList = gameThoughts.filter((_, idx) => idx !== i);
-                  setGameThoughts(newGameThoughtList);
-                  storeGameThoughts(newGameThoughtList);
-                }}
+                onDelete={() => onDelete(g)}
               />
             ))
           }
