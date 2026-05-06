@@ -3,7 +3,6 @@ import { Waypoint, WaypointFields } from '../types.ts';
 type Response<T> = {
   status: number,
   data: T,
-  error?: string,
 }
 const request = async <R = any>(url: string, method: string, body: any = {}): Promise<Response<R>> => {
   const res = await fetch(`http://localhost:3001${url}`, {
@@ -17,16 +16,14 @@ const request = async <R = any>(url: string, method: string, body: any = {}): Pr
   });
   const { status } = res;
   let data: R | undefined = undefined;
-  let error = !res.ok ? `${res.status}` : '';
   try {
     data = await res.json() as unknown as R;
   } catch (error) {
-    error = error?.message ?? error;
+    throw error;
   }
   return {
     status,
-    data: data!,
-    error,
+    data: data!
   }
 }
 
@@ -43,5 +40,5 @@ export const clearAllWaypoints = async () => {
 }
 
 export const deleteWaypoint = async (waypoint: Waypoint) => {
-  return await request<null>(`/waypoints/${waypoint.id}`, 'DELETE')
+  return await request<null>(`/waypoints/${waypoint._id}`, 'DELETE')
 }
